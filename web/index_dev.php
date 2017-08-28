@@ -13,8 +13,9 @@ if (isset($_SERVER['HTTP_CLIENT_IP'])
 }
 
 // Сервер возвращает файлы напрямую.
-if (preg_match('/\.(png|jpg|jpeg|gif|css|js)$/', $_SERVER['REQUEST_URI'])) {
-    return false;    
+$filename = __DIR__ . preg_replace('#(\?.*)$#', '', $_SERVER['REQUEST_URI']);
+if (php_sapi_name() === 'cli-server' && is_file($filename)) {
+    return false;
 }
 
 require_once __DIR__ . '/../vendor/autoload.php';
