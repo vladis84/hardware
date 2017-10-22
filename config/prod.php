@@ -1,6 +1,16 @@
 <?php
 
-// configure your app for the production environment
+define('APP_SRC_FOLDER', __DIR__ . '/../src');
+define('APP_VAR_FOLDER', __DIR__ . '/../var');
 
-$app['twig.path'] = array(__DIR__.'/../templates');
-$app['twig.options'] = array('cache' => __DIR__.'/../var/cache/twig');
+$app['twig.path'] = APP_SRC_FOLDER . '/views';
+
+$app->extend('twig.loader.filesystem', function ($loader) {
+
+    $loader->addPath(APP_SRC_FOLDER . '/hardware/views', 'hardware');
+    $loader->addPath(APP_SRC_FOLDER . '/user/views'    , 'user');
+
+    return $loader;
+});
+
+$app['twig.options'] = array('cache' => APP_VAR_FOLDER . '/cache/twig');

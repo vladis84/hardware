@@ -1,0 +1,33 @@
+{% if param is not defined %}
+    {% set param = {name: '', value: '', rule: 0} %}
+{% endif %}
+<div class="row param-block">
+    <div class="col-md-4">
+        <div class="form-group">
+            <label for="param-name-id">Название поля</label>
+            <textarea  class="form-control" id="param-name-id" name="hardware[params][id][name]">{{ param.name }}</textarea>
+        </div>
+    </div>
+    <div class="col-md-4">
+        <div class="form-group">
+            <label for="param-value-id">Значение поля</label>
+            <textarea  class="form-control" id="param-value-id" name="hardware[params][id][value]">{{ param.value }}</textarea>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <div class="form-group">
+            <label for="param-rule-id">Права</label>
+            <select class="form-control" id="param-rule-id" name="hardware[params][id][rule]">
+                {% for group in usersGroup %}
+                    <option value="{{ group.id }}" {% if (param.rule == group.id) %} selected {% endif %}>{{ group.name }}</option>
+                {% endfor %}
+            </select>
+        </div>
+    </div>
+    <div class="col-md-2">
+        <label></label>
+        <button type="button" class="btn btn-danger form-control js-remove-param">
+            Удалить
+        </button>
+    </div>
+</div>

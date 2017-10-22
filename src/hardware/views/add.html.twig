@@ -1,0 +1,17 @@
+{% extends "layout.html.twig" %}
+{% block title %}
+    Добавление нового оборудования
+{% endblock %}
+{% set usersGroup = [{id: '8', name: 'Пользователи'}] %}
+{% if errors is not defined %}
+    {% set errors = [] %}
+{% endif %}
+
+{% block content %}
+    <div class="container">
+        <form method="post" action="/hardware/save">
+            {% include '@hardware/change.html.twig' with {hardware: hardware, usersGroup: usersGroup, errors: errors} %}
+            <input type="hidden" name="action" value="add">
+        </form>
+    </div>
+{% endblock %}

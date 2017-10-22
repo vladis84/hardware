@@ -3,7 +3,7 @@
 /**
  *
  */
-class Repository
+abstract class Repository
 {
     /**
      * @var \MongoDB\Client
@@ -14,6 +14,8 @@ class Repository
     {
         $this->client = $client;
     }
+
+    abstract protected function collection();
 
     /**
      *

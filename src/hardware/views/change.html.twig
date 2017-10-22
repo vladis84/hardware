@@ -1,0 +1,35 @@
+<div class="row">
+    <input type="hidden" name="hardware[id]">
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="address">Адрес</label>
+            <input type="text"  class="form-control" id="address" name="hardware[address]" value="{{hardware.address}}">
+        </div>
+    </div>
+    <div class="col-md-6">
+        <div class="form-group">
+            <label for="hardware-name">Название</label>
+            <input type="text"  class="form-control" id="hardware-name" name="hardware[name]" value="{{hardware.name}}">
+        </div>
+    </div>
+</div>
+
+<div class="param-body" data-params-number="{{ hardware.params|length }}">
+    {% for param in hardware.params %}
+        {% include '@hardware/change-param.html.twig' with {param: param} %}
+    {% endfor %}
+</div>
+
+<div class="row">
+    <div class="col-md-3">
+        <button type="button" class="btn btn-primary js-add-param">Добавить параметр</button>
+    </div>
+    <div class="col-md-offset-7 col-md-2 text-right">
+        <button  type="submit" class="btn btn-success">Сохранить</button>
+    </div>
+</div>
+
+<script type="template/text" class="param-template">
+    {% include '@hardware/change-param.html.twig' %}
+</script>
+<script src="/js/hardware-edit.js"></script>

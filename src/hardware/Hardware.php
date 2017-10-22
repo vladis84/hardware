@@ -6,9 +6,9 @@ use Symfony\Component\Validator\Mapping\ClassMetadata;
 use Symfony\Component\Validator\Constraints as Assert;
 
 /**
- *
+ * Устройство.
  */
-class Hardware
+class Hardware implements \MongoDB\BSON\Persistable
 {
     public $_id;
     
@@ -37,12 +37,36 @@ class Hardware
         $metadata->addPropertyConstraint('params' , new Assert\Count(['min' => 1]));
     }
 
-    public function toArray()
+    public function bsonSerialize()
     {
-        $result = get_object_vars($this);
+       $params = [];
+        foreach ($this->params as $param) {
+            $params[] = $param->bsonSerialize();
+        }
 
-        unset($result['_id']);
+        return [
+            'address' => $this->address,
+            'name'    => $this->name,
+            'params'  => $params,
+        ];
+    }
 
-        return $result;
+    public function bsonUnserialize(array $values)
+    {
+        $this->_id     = isset($values['_id']) ? (string) $values['_id'] : null;
+        $this->address = $values['address'] ?? null;
+        $this->name    = $values['name']    ?? null;
+
+        $params = $values['params']  ?? [];
+        foreach ($params as $param) {
+            $hardwareParam = $param;
+
+            if (!$hardwareParam instanceof HardwareParam) {
+                $hardwareParam = new HardwareParam;
+                $hardwareParam->bsonUnserialize($param);
+            }
+           
+            $this->params[] = $hardwareParam;
+        }
     }
 }

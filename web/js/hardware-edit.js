@@ -1,7 +1,12 @@
 function addParam()
 {
-    var $block = $('.hidden.param-block').clone(true);
-    var blockId = $('.param-body .param-block').length + 1;
+    var $block = $($('.param-template').html());
+    var $paramBody = $('.param-body');
+
+    var blockId = parseInt($paramBody.data('params-number')) + 1;
+
+    console.log(blockId);
+    $paramBody.data('params-number', blockId);
 
     $block.find('textarea,select').each(function () {
         var $element = $(this);
@@ -20,7 +25,7 @@ function addParam()
 
     $block.removeClass('hidden');
 
-    $('.param-body').append($block).show();
+    $paramBody.append($block).show();
 }
 
 /**
@@ -35,6 +40,6 @@ function removeParam($button)
 
 $(document).ready(function () {
     $('.js-add-param').click(function () {addParam();});
-    $('.js-remove-param').click(function () {removeParam($(this));});
+    $('.param-body').on('click', '.js-remove-param', function () {removeParam($(this));});
 });
 
