@@ -13,17 +13,26 @@ $app->register(new AssetServiceProvider());
 $app->register(new HttpFragmentServiceProvider());
 $app->register(new MongoServiceProvider, ['mongodb.options']);
 $app->register(new ValidatorServiceProvider);
+$app->register(new Silex\Provider\SessionServiceProvider());
 
 $app->register(new SecurityServiceProvider);
 $app['security.firewalls'] = [
-    'admin' => [
-        'pattern' => '^/users',
-        'form' => ['login_path' => '/login', 'check_path' => '/login_check'],
-        'http' => true,
-        'users' => function () use ($app) {
+    'default' => [
+        'pattern' => '^.*$',
+        'anonymous' => true,
+        'form'    => ['login_path'  => '/login' , 'check_path' => '/login_check'],
+        'logout'  => ['logout_path' => '/logout', 'invalidate_session' => true],
+        'users'   => $app->factory(function ($app) {
             return new user\UserProvider($app->userRepository);
-        }
-    ]
+        }),
+    ],
+];
+$app['security.role_hierarchy'] = [
+    'ROLE_ADMIN' => ['ROLE_USER'],
+];
+
+$app['security.access_rules'] = [
+    ['^/user', 'ROLE_ADMIN'],
 ];
 
 $app->register(new Silex\Provider\TwigServiceProvider);
@@ -34,6 +43,15 @@ $app['hardwareRepository'] = function () use ($app) {
 
 $app['userRepository'] = function () use ($app) {
     return new \user\UserRepository($app['mongodb']);
+};
+
+$app['userGroupRepository'] = function () use ($app) {
+    return new \user\UserGroupRepository($app['mongodb']);
+};
+
+$app['availableUsersGroup'] = function () use ($app) {
+    $usersGroup = $app->userGroupRepository->getAll();
+    return $usersGroup;
 };
 
 return $app;

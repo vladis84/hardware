@@ -1,0 +1,71 @@
+{% extends "layout.html.twig" %}
+
+{% if user is not defined %}
+    {% set user = {userName: '', roles: []} %}
+{% endif %}
+
+{% block title %} {{user.userName}} {% endblock %}
+{% block css %}
+    <link rel="stylesheet" href="/css/select2.min.css">
+    <link rel="stylesheet" href="/css/select2-bootstrap.min.css">
+{% endblock %}
+
+{% block content %}
+    <div class="container">
+        <form action="/user/save?user-name={{ user.userName }}" method="post">
+            <div class="row">
+                <div class="col-md-4">
+                    <h1>{{ user.userName }}</h1>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <strong>Задать пароль</strong>
+                </div>
+                <div class="col-md-4 form-group">
+                    <input type="password" name="raw-password">
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-2">
+                    <strong>Роли</strong>
+                </div>
+                <div class="col-md-4">
+                    <select class="form-control js-user-roles" multiple="multiple" name="user-roles[]">
+                        {% for group in usersGroup %}
+                            <option
+                                {% if group.name in user.roles %} selected="selected" {% endif %}
+                                value="{{ group.name }}">{{ group.title }}
+                            </option>
+                        {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="row" style="margin-top: 30px">
+                <div class="col-md-2">
+                    <button class="btn btn-success">
+                        <span class="glyphicon glyphicon-ok-circle"></span>
+                        Сохранить
+                    </button>
+                </div>
+                <div class="col-md-2">
+                    {% if user.isBanned %}
+                        <button class="btn btn-warning js-user-ban">
+                            <span class="glyphicon glyphicon-ok-circle"></span>
+                            Разблокировать
+                        </button>
+                    {% else %}
+                        <button class="btn btn-warning js-user-ban">
+                            <span class="glyphicon glyphicon-ban-circle"></span>
+                            Заблокировать
+                        </button>
+                    {% endif %}
+                </div>
+            </div>
+        </form>
+    </div>
+{% endblock %}
+{% block js %}
+    <script src="/js/select2.min.js"></script>
+    <script src="/js/user-edit.js"></script>
+{% endblock %}

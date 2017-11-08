@@ -1,5 +1,7 @@
 <div class="row">
-    <input type="hidden" name="hardware[id]">
+    {% if hardware.id %}
+        <input type="hidden" name="hardware[_id]" value="{{ hardware.id }}">
+    {% endif %}
     <div class="col-md-6">
         <div class="form-group">
             <label for="address">Адрес</label>
@@ -29,7 +31,9 @@
     </div>
 </div>
 
-<script type="template/text" class="param-template">
+<script type="text/template" class="param-template">
     {% include '@hardware/change-param.html.twig' %}
 </script>
-<script src="/js/hardware-edit.js"></script>
+{% block js %}
+    <script src="/js/hardware-edit.js"></script>
+{% endblock %}

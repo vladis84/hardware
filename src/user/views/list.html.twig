@@ -1,5 +1,48 @@
 {% extends "layout.html.twig" %}
 
+{% block title %}
+    Список пользователей
+{% endblock %}
+
 {% block content %}
-    <a href="/hardware/add">Добавить Оборудование</a>
+    <div class="container">
+        <div class="row">
+            <div class="col-md-12">
+                <table class="table table-bordered">
+                    <caption>Список пользователей</caption>
+                    <thead>
+                        <tr>
+                            <td>Имя</td>
+                            <td>Роли</td>
+                            <td>Действие</td>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for user in users %}
+                            <tr data-user-name="{{ user.userName }}">
+                                <td>
+                                    <a href="/user/view?user-name={{ user.userName }}">{{ user.userName }}</a>
+                                </td>
+                                <td>{{ user.roles|join(', ') }}</td>
+                                <td>
+                                    <a href="/user/edit?user-name={{user.userName}}" class="btn btn-primary">
+                                        <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                                        Редактировать
+                                    </a>
+                                </td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-md-6">
+                <a class="btn btn-success" href="/user/add">
+                    <span class="glyphicon glyphicon-user"></span>
+                    Добавить пользователя
+                </a>
+            </div>
+        </div>
+    </div>
 {% endblock %}

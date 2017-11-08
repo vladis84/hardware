@@ -2,18 +2,18 @@
 
 namespace user;
 
+use Symfony\Component\Security\Core\User\UserInterface;
+
 /**
  *
  */
-class User implements \Symfony\Component\Security\Core\User\UserInterface, \MongoDB\BSON\Persistable
+class User implements UserInterface, \MongoDB\BSON\Persistable
 {
-    public $_id;
-
     /**
      *
-     * @var string
+     * @var array
      */
-    public $name;
+    private $data;
 
     public function eraseCredentials()
     {
@@ -22,33 +22,60 @@ class User implements \Symfony\Component\Security\Core\User\UserInterface, \Mong
 
     public function getPassword(): string
     {
-        
+        return $this->data['password'] ?? '';
     }
 
     public function getRoles()
     {
+        return $this->data['roles'] ?? [];
+    }
 
+    public function clearRoles()
+    {
+        $this->data['roles'] = [];
+    }
+
+    public function addRole($role)
+    {
+        if (empty($this->data['roles'])) {
+            $this->data['roles'] = [];
+        }
+        
+        $this->data['roles'][] = $role;
+    }
+
+    public function isBanned()
+    {
+        return $this->data['isBanned'] ?? false;
     }
 
     public function getSalt()
     {
-        
+        'qawsedrg1dfgc3dfsdf';
+    }
+
+    public function setPassword($password)
+    {
+        $this->data['password'] = $password;
     }
 
     public function getUsername(): string
     {
+        return $this->data['name'] ?? null;
+    }
 
+    public function setUserName($userName)
+    {
+        $this->data['name'] = $userName;
     }
 
     public function bsonSerialize()
     {
-        return (array) $this;
+        return $this->data;
     }
 
     public function bsonUnserialize(array $data)
     {
-        $data += ['_id' => null, 'name' => ''];
-        $this->_id = $data['id'];
-        $this->name = $data['name'];
+        $this->data = $data;
     }
 }

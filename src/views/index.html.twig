@@ -1,6 +1,38 @@
 {% extends "layout.html.twig" %}
+{% block title %}
+    Железяка
+{% endblock %}
 
 {% block content %}
-    <a href="/hardware/add">Добавить Оборудование</a>
-    <a href="/user/list">Список пользователей</a>
+    <div class="container">
+        <table class="table table-bordered table-hover">
+            {% for hardware in hardwareList %}
+                <tr>
+                    <td colspan="2">
+                        <a href="/hardware/view?id={{ hardware.id }}">{{ hardware.name }} {{ hardware.address }}</a>
+                    </td>
+                </tr>
+                {% for param in hardware.params %}
+                    <tr>
+                        <td>{{ param.name }}</td>
+                        <td>
+                            {% if is_granted(param.role) %}
+                                {{ param.value }}
+                            {% else %}
+                                ******
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            {% endfor %}
+        </table>
+        <div class="row">
+            <div class="col-md-3">
+                <a href="/hardware/add" class="btn btn-success">
+                    <span class="glyphicon glyphicon-edit"></span>
+                    Добавить оборудование
+                </a>
+            </div>
+        </div>
+    </div>
 {% endblock %}

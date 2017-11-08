@@ -1,25 +1,28 @@
 {% if param is not defined %}
-    {% set param = {name: '', value: '', rule: 0} %}
+    {% set param = {name: '', value: '', role: ''} %}
+{% endif %}
+{% if loop is not defined %}
+    {% set loop = {index: 0} %}
 {% endif %}
 <div class="row param-block">
     <div class="col-md-4">
         <div class="form-group">
             <label for="param-name-id">Название поля</label>
-            <textarea  class="form-control" id="param-name-id" name="hardware[params][id][name]">{{ param.name }}</textarea>
+            <textarea  class="form-control" id="param-name-id" name="hardware[params][{{ loop.index }}][name]">{{ param.name }}</textarea>
         </div>
     </div>
     <div class="col-md-4">
         <div class="form-group">
             <label for="param-value-id">Значение поля</label>
-            <textarea  class="form-control" id="param-value-id" name="hardware[params][id][value]">{{ param.value }}</textarea>
+            <textarea  class="form-control" id="param-value-id" name="hardware[params][{{ loop.index }}][value]">{{ param.value }}</textarea>
         </div>
     </div>
     <div class="col-md-2">
         <div class="form-group">
             <label for="param-rule-id">Права</label>
-            <select class="form-control" id="param-rule-id" name="hardware[params][id][rule]">
+            <select class="form-control" id="param-rule-id" name="hardware[params][{{ loop.index }}][role]">
                 {% for group in usersGroup %}
-                    <option value="{{ group.id }}" {% if (param.rule == group.id) %} selected {% endif %}>{{ group.name }}</option>
+                    <option value="{{ group.name }}" {% if (param.role == group.name) %} selected {% endif %}>{{ group.title }}</option>
                 {% endfor %}
             </select>
         </div>

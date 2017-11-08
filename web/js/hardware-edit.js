@@ -10,8 +10,8 @@ function addParam()
 
     $block.find('textarea,select').each(function () {
         var $element = $(this);
-        var id = $element.attr('id').replace('id', blockId);
-        var name = $element.attr('name').replace('id', blockId);
+        var id = $element.attr('id').replace(/\d+/, blockId);
+        var name = $element.attr('name').replace(/\d+/, blockId);
 
         $element.attr('id', id).attr('name', name);
     });

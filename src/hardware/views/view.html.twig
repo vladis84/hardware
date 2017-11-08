@@ -1,6 +1,6 @@
 {% extends "layout.html.twig" %}
 {% block title %}
-    {{hardware.name}}
+    {{ hardware.name }}
 {% endblock %}
 {% block content %}
     <div class="container">
@@ -12,23 +12,31 @@
             <tr>
                 <th>Адрес</th>
                 <td>{{ hardware.address }}</td>
-                <td>Роль</td>
             </tr>
             {% for param in hardware.params %}
                 <tr>
                     <th>{{param.name}}</th>
-                    <td>{{param.value}}</td>
-                    <td>{{param.rule}}</td>
+
+                    <td>
+                        {% if is_granted(param.role) %}
+                            {{ param.value }}
+                        {% else %}
+                            ******
+                        {% endif %}
+                    </td>
+
                 </tr>
             {% endfor %}
         </table>
-        <div class="row">
-            <div class="col-md-2">
-                <a href="/hardware/edit?id={{hardware._id}}" class="btn btn-primary">Редактировать</a>
+        {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+            <div class="row">
+                <div class="col-md-2">
+                    <a href="/hardware/edit?id={{hardware.id}}" class="btn btn-primary">Редактировать</a>
+                </div>
+                <div class="col-md-offset-8 col-md-2 text-right">
+                    <a href="/hardware/delete?id={{hardware.id}}" class="btn btn-danger">Удалить</a>
+                </div>
             </div>
-            <div class="col-md-offset-8 col-md-2 text-right form-control">
-                <a href="/hardware/delete?id={{hardware._id}}" class="btn btn-danger">Удалить</a>
-            </div>
-        </div>
+        {% endif %}
     </div>
 {% endblock %}

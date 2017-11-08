@@ -1,0 +1,32 @@
+{% extends "layout.html.twig" %}
+
+{% block title %} Новый пользователь {% endblock %}
+{% block content %}
+    <div class="container">
+        <form action="{{ path('login_check') }}" method="post">
+            {{ error }}
+            <div class="row form-group">
+                <div class="col-md-2">
+                    <strong>Имя пользователя</strong>
+                </div>
+                <div class="col-md-2">
+                    <input type="text" class="form-control" name="_username" value="{{ last_username }}">
+                </div>
+
+            </div>
+            <div class="row form-group">
+                <div class="col-md-2">
+                    <strong>Пароль</strong>
+                </div>
+                <div class="col-md-2">
+                    <input type="password" class="form-control" name="_password">
+                </div>
+            </div>
+                <div class="row">
+                    <div class="col-md-2">
+                        <button type="submit" class="btn btn-success">Вход</button>
+                    </div>
+                </div>
+        </form>
+    </div>
+{% endblock %}

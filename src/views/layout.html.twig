@@ -10,12 +10,36 @@
 
         <link href="/css/main.css" rel="stylesheet" type="text/css" />
         <link rel="icon" href="/favicon.ico?v=3" />
-        
-        <!-- Latest compiled and minified JavaScript -->
-        <script src="/js/jquery-3.2.1.min.js"></script>
-        <script src="/bootstrap/js/bootstrap.min.js"></script>
-    </head>
-    <body>
-    {% block content %}{% endblock %}
+    {% block css %}{% endblock %}
+
+    <!-- Latest compiled and minified JavaScript -->
+    <script src="/js/jquery-3.2.1.min.js"></script>
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+</head>
+<body>
+    <div class="container" style="margin-bottom: 20px">
+        <ul class="nav nav-pills">
+            <li role="presentation" class="active">
+                <a href="/">На главную</a>
+            </li>
+            {% if is_granted('ROLE_ADMIN') %}
+                <li role="presentation">
+                    <a href="/user/list">Список пользователей</a>
+                </li>
+            {% endif %}
+            <li role="presentation">
+                {% if is_granted('IS_AUTHENTICATED_FULLY') %}
+                    <a href="{{ path('logout') }}">
+                        <span class="glyphicon glyphicon-off"></span>
+                        {{ app.user.userName }}
+                    </a>
+                {% else %}
+                    <a href="{{ path('login') }}">Login</a>
+                {% endif %}
+            </li>
+        </ul>
+    </div>
+{% block content %}{% endblock %}
+{% block js %}{% endblock %}
 </body>
 </html>
