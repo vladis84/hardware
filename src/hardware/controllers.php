@@ -44,7 +44,6 @@ $hardware->post('/save', function (Request $request) use ($app) {
 
     $errors = $app->validator->validate($hardware->getData(), $hardware->getAssert());
 
-    var_dump($errors);
     if (count($errors) > 0) {
         return $app->twig->render("@hardware/{$action}.html.twig", ['hardware' => $hardware, 'errors' => $errors, 'usersGroup' => $app->availableUsersGroup]);
     }

@@ -50,7 +50,12 @@ $app['userGroupRepository'] = function () use ($app) {
 };
 
 $app['availableUsersGroup'] = function () use ($app) {
-    $usersGroup = $app->userGroupRepository->getAll();
+    $usersGroup = [
+        'IS_AUTHENTICATED_ANONYMOUSLY' => 'Гости',
+        'ROLE_USER' => 'Пользователи',
+        'ROLE_ADMIN' => 'Администраторы',
+    ];
+    
     return $usersGroup;
 };
 
