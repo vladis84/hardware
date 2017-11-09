@@ -49,6 +49,11 @@ class User implements UserInterface, \MongoDB\BSON\Persistable
         return $this->data['isBanned'] ?? false;
     }
 
+    public function setBanned(bool $banned)
+    {
+        return $this->data['isBanned'] = $banned;
+    }
+
     public function getSalt()
     {
         'qawsedrg1dfgc3dfsdf';

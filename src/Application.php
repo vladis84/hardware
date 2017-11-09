@@ -6,8 +6,7 @@
  * @property Silex\ControllerCollection $controllers_factory
  * @property hardware\HardwareRepository $hardwareRepository
  * @property user\UserRepository $userRepository
- * @property user\UserGroupRepository $userGroupRepository
- * @property user\UserGroup[] $availableUsersGroup
+ * @property array $availableUsersGroup
  */
 class Application extends \Silex\Application
 {

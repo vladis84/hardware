@@ -17,17 +17,6 @@ $user->get('/list', function (Request $request) use ($app) {
     return $app->twig->render('@user/list.html.twig', ['users' => $users, 'usersGroup' => $app->availableUsersGroup]);
 });
 
-$user->get('/view', function (Request $request) use ($app) {
-    $name = $request->get('user-name');
-
-    $user = $app->userRepository->findByUsername($name);
-    if (!$user) {
-        throw new NotFoundHttpException("Не найден пользователь с именем '{$name}'");
-    }
-
-    return $app->twig->render('@user/view.html.twig', ['user' => $user, 'usersGroup' => $app->availableUsersGroup]);
-});
-
 $user->get('/add', function(Request $request) use ($app) {
     $user = new user\User;
     return $app->twig->render('@user/add.html.twig', ['user' => $user, 'usersGroup' => $app->availableUsersGroup]);
@@ -75,7 +64,21 @@ $user->post('/save', function (Request $request) use ($app) {
 
     $app->userRepository->save($user);
     
-    return $app->redirect('/user/view?user-name=' . $user->getUsername());
+    return $app->redirect('/user/list');
+});
+
+$user->get('/ban', function (Request $request) use ($app) {
+    $name = $request->get('user-name');
+    $user = $app->userRepository->findByUsername($name);
+    if (!$user->getUsername()) {
+        throw new NotFoundHttpException("Не найден пользователь с именем '{$name}'");
+    }
+
+    $isBanned = (bool) $request->get('is-banned', false);
+    $user->setBanned($isBanned);
+    $app->userRepository->save($user);
+
+    return $app->redirect('/user/list');
 });
 
 return $user;

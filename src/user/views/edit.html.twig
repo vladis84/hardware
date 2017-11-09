@@ -46,15 +46,15 @@
                 </div>
                 <div class="col-md-2">
                     {% if user.isBanned %}
-                        <button class="btn btn-warning js-user-ban">
+                        <a class="btn btn-primary" href="/user/ban?{{ {'user-name': user.userName, 'is-banned': 0}|url_encode() }}">
                             <span class="glyphicon glyphicon-ok-circle"></span>
                             Разблокировать
-                        </button>
+                        </a>
                     {% else %}
-                        <button class="btn btn-warning js-user-ban">
+                        <a class="btn btn-warning" href="/user/ban?{{ {'user-name': user.userName, 'is-banned': 1}|url_encode() }}">
                             <span class="glyphicon glyphicon-ban-circle"></span>
                             Заблокировать
-                        </button>
+                        </a>
                     {% endif %}
                 </div>
             </div>
