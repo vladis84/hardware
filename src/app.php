@@ -52,10 +52,10 @@ $app['userGroupRepository'] = function () use ($app) {
 $app['availableUsersGroup'] = function () use ($app) {
     $usersGroup = [
         'IS_AUTHENTICATED_ANONYMOUSLY' => 'Гости',
-        'ROLE_USER' => 'Пользователи',
-        'ROLE_ADMIN' => 'Администраторы',
+        'ROLE_USER'                    => 'Пользователи',
+        'ROLE_ADMIN'                   => 'Администраторы',
     ];
-    
+
     return $usersGroup;
 };
 

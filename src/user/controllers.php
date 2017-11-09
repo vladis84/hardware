@@ -54,11 +54,12 @@ $user->post('/save', function (Request $request) use ($app) {
         $user->setUserName($request->get('user-name'));
     }
 
-    $user->clearRoles();
-    foreach ($request->get('user-roles', []) as $role) {
-        $user->addRole($role);
+    $userRole = $request->get('user-role');
+    if ($userRole) {
+        $user->clearRoles();
+        $user->addRole($userRole);
     }
-
+   
     $rawPassword = $request->get('raw-password');
     if ($rawPassword) {
         /* @var $encoder \Symfony\Component\Security\Core\Encoder\PasswordEncoderInterface */

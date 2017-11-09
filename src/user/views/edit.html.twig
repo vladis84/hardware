@@ -5,10 +5,6 @@
 {% endif %}
 
 {% block title %} {{user.userName}} {% endblock %}
-{% block css %}
-    <link rel="stylesheet" href="/css/select2.min.css">
-    <link rel="stylesheet" href="/css/select2-bootstrap.min.css">
-{% endblock %}
 
 {% block content %}
     <div class="container">
@@ -28,14 +24,14 @@
             </div>
             <div class="row">
                 <div class="col-md-2">
-                    <strong>Роли</strong>
+                    <strong>Роль</strong>
                 </div>
                 <div class="col-md-4">
-                    <select class="form-control js-user-roles" multiple="multiple" name="user-roles[]">
-                        {% for group in usersGroup %}
+                    <select class="form-control" name="user-role">
+                        {% for group, groupTitle in usersGroup %}
                             <option
-                                {% if group.name in user.roles %} selected="selected" {% endif %}
-                                value="{{ group.name }}">{{ group.title }}
+                                {% if group in user.roles %} selected="selected" {% endif %}
+                                value="{{ group }}">{{ groupTitle }}
                             </option>
                         {% endfor %}
                     </select>
@@ -64,8 +60,4 @@
             </div>
         </form>
     </div>
-{% endblock %}
-{% block js %}
-    <script src="/js/select2.min.js"></script>
-    <script src="/js/user-edit.js"></script>
 {% endblock %}
